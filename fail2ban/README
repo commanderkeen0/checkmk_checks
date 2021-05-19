@@ -1,0 +1,7 @@
+# How to install
+
+## Agent
+to activate the agent on a Linux system copy the agent file to: /usr/lib/check_mk_agent/plugins
+
+## Gui
+to get the data evaluated copy the gui file to: /omd/sites/<SITE>/local/lib/check_mk/base/plugins/agent_based
