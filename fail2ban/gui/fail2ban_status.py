@@ -12,10 +12,14 @@ def check_fail2ban_status(section):
             s = State.OK
             message = "Service ok"
             yield Metric("Status",1)
+        elif line[0].startswith("inactive-dead"):
+            s = State.CRIT
+            message = "Service DEAD"
+            yield Metric("Status",0)
         else:
             s = State.CRIT
-            message = "Service error"
-            yield Metric("Status",0)
+            message = "Service ERROR"
+            yield Metric("Status",2)
 
         yield Result(
             state = s,
