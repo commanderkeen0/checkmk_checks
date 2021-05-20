@@ -1,0 +1,33 @@
+#!/bin/bash
+###
+### This script checks how many connections are active based on the handshake and that the timer  is below 180 seconds.
+### According to the wireguard documentation https://www.wireguard.com/protocol/ the "Cookies expire after two minutes"
+###
+###
+
+# variables
+CTIME=$(date +%s)    # get unix standard time
+TIMEOUT="180"    # the maximal TIMEOUT for the handshake
+HANDSHARETIME=$(sudo wg show wg0 latest-handshakes | awk '{ print $2 }')
+COUNT="0"    # how mans sessions are active and have a counter below TIMEOUT
+
+for i in $HANDSHARETIME
+do
+    if [ $i -gt "0" ]
+      then
+        # Calculate the DELTA between current time and handshake
+        DELTA=$(($CTIME-$i))
+        # if DELTA is below TIMEOUT count plus one
+        if [ $DELTA -lt $TIMEOUT ]
+          then
+            #echo active $DELTA
+            COUNT=$(($COUNT+1))
+        fi
+    fi
+done
+
+
+echo "<<<wg_active_sessions>>>"
+echo "wg0 $COUNT"
+#echo "wg1 7"
+#echo "wg2 7"

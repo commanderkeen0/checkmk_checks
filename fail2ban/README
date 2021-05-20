@@ -5,3 +5,8 @@ to activate the agent on a Linux system copy the agent file to: /usr/lib/check_m
 
 ## Gui
 to get the data evaluated copy the gui file to: /omd/sites/<SITE>/local/lib/check_mk/base/plugins/agent_based
+
+# Missing
+Currently only the enumaration of banned IPs are transmitted back to the monitoring solution. 
+
+- Fail2ban Status ok / nok
