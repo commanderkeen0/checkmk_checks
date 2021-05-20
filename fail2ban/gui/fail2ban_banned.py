@@ -28,4 +28,6 @@ register.check_plugin(
     service_name="fail2ban JAIL: %s",
     discovery_function=discover_fail2ban_banned,
     check_function=check_fail2ban_banned,
+#    check_ruleset_name="fail2ban_parameter",
+#    check_default_parameters="_parameter_valuespec_fail2ban_banned",
 )
