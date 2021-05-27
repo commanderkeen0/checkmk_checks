@@ -6,28 +6,42 @@
 
 # Variables
 DLAGENT="" #download string for the agent
-AGENT="checkmk_agent.deb" #
-LINUX=$(cat /etc/issue | awk '{ print $1 }')
-INSTANCE="INSTANCE"
-DLSERVER="192.168.0.100"
+AGENT="/tmp/checkmk_agent.deb" #Agent locatin and filename
+LINUX=$(cat /etc/issue | awk '{ print $1 }') # get the distribution name
+INSTANCE="<INSTANCE>" # your monitoring instance
+DLSERVER="<SERVER IP>" # Webserver to download the agent
+DEBUG=0 # can be set to 1 default is 0
 
-# for Ubunut Systems
-if [ $LINUX == "Ubuntu" ] || [ OR $LINUX == "Debian" ]
+# check Linux Distribution
+if [ $DEBUG -eq "1" ]; then echo $LINUX " - CRTL C for exit" && sleep 5; fi
+
+# for Ubunut or Debian Systems
+if [ $LINUX == "Ubuntu" ] || [ $LINUX == "Debian" ]
  then
     DLAGENT=$INSTANCE"_latest_deb_agent"
-
 fi
 
+# Download Agent
 curl -s -k https://$DLSERVER/$DLAGENT -o $AGENT
 
+# check the installed vesion of the agent
 INSTALLEDAGENT=$(sudo apt-cache policy check-mk-agent | grep Installed | awk '{ print $2 }')
-REMOTEAGENT=$(dpkg-deb -f ./$AGENT Version )
+# check the client version that has been downloaded
+REMOTEAGENT=$(dpkg-deb -f $AGENT Version )
 
+# display versions for debug
+if [ $DEBUG -eq "1" ]
+ then
+    echo $INSTALLEDAGENT" vs. "$REMOTEAGENT
+fi
 
-#echo $INSTALLEDAGENT" vs. "$REMOTEAGENT
-
+# compare versions
 if [ "$INSTALLEDAGENT" !=  "$REMOTEAGENT" ]
  then
-    echo "unequal"
-    sudo apt install ./$AGENT -y
+    if [ $DEBUG -eq "1" ]; then echo "NEW AGENT WILL BE INSTALLED - CRTL C for exit" && sleep 5; fi
+    #launch installation
+    sudo apt install $AGENT -y
 fi
+
+# remove downloadad agent
+rm $AGENT
