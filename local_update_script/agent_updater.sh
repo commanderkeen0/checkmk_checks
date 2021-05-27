@@ -24,7 +24,7 @@ INSTALLEDAGENT=$(sudo apt-cache policy check-mk-agent | grep Installed | awk '{ 
 REMOTEAGENT=$(dpkg-deb -f ./$AGENT Version )
 
 
-echo $INSTALLEDAGENT" vs. "$REMOTEAGENT
+#echo $INSTALLEDAGENT" vs. "$REMOTEAGENT
 
 if [ "$INSTALLEDAGENT" !=  "$REMOTEAGENT" ]
  then
