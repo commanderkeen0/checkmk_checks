@@ -1,0 +1,11 @@
+# Scope
+
+This agent will not replace the enterprise capability. It will only enhance the usage of the RAW edition
+
+
+
+The agent will consist out of two parts.
+
+1. local agent update script on the monitoring host (Server) checking for the instance version and creating a symbolic linc in the /var/www/html folder
+2. local agent update script on the monitored host (client) 
+
