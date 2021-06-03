@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 #
 # read the site list and obtain the installed version
 # this script is needed on the monitoring server
@@ -7,8 +7,9 @@
 
 
 HTMLROOT="/var/www/html"
-DEBAGENTPREFIX="latest_deb_agent"
-RPMAGENTPREFIX="latest_rpm_agent"
+DEBAGENTPREFIX="latest_agent.deb"
+RPMAGENTPREFIX="latest_agent.rpm"
+WINAGENTPREFIX="latest_win_agent.msi"
 
 # read the installed instances
 IFS=', ' read -r -a array <<< $(omd sites -b)
@@ -27,5 +28,9 @@ for element in "${array[@]}"
     # get the full path for the symbolic link for RPM packet
     RPM=$(ls -1 /opt/omd/versions/$VERSION/share/check_mk/agents/*.rpm)
     ln -sf $RPM $HTMLROOT/$element"_"$RPMAGENTPREFIX
+
+    # get the full path for the symbolic link for WIN packet
+    WIN=$(ls -1 /opt/omd/versions/2.0.0p5.cre/share/check_mk/agents/windows/check_mk*.msi)
+    ln -sf $WIN $HTMLROOT/$element"_"$WINAGENTPREFIX
 
  done
