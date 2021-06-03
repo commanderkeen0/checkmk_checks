@@ -4,13 +4,19 @@
 #
 #
 
+# Host Details
+INSTANCE="<INSTANCE>" # your monitoring instance
+DLSERVER="<SERVER IP>" # Webserver to download the agent
+
 # Variables
 DLAGENT="" #download string for the agent
 AGENT="/tmp/checkmk_agent.deb" #Agent locatin and filename
 LINUX=$(cat /etc/issue | awk '{ print $1 }') # get the distribution name
-INSTANCE="<INSTANCE>" # your monitoring instance
-DLSERVER="<SERVER IP>" # Webserver to download the agent
+DEBSUFFIX="latest_agent.deb"
+RPMSUFFIX="latest_agent.rpm"
+
 DEBUG=0 # can be set to 1 default is 0
+
 
 # check Linux Distribution
 if [ $DEBUG -eq "1" ]; then echo $LINUX " - CRTL C for exit" && sleep 5; fi
@@ -18,7 +24,7 @@ if [ $DEBUG -eq "1" ]; then echo $LINUX " - CRTL C for exit" && sleep 5; fi
 # for Ubunut or Debian Systems
 if [ $LINUX == "Ubuntu" ] || [ $LINUX == "Debian" ]
  then
-    DLAGENT=$INSTANCE"_latest_deb_agent"
+    DLAGENT=$INSTANCE"_"$DEBSUFFIX
 fi
 
 # Download Agent
@@ -40,6 +46,7 @@ if [ "$INSTALLEDAGENT" !=  "$REMOTEAGENT" ]
  then
     if [ $DEBUG -eq "1" ]; then echo "NEW AGENT WILL BE INSTALLED - CRTL C for exit" && sleep 5; fi
     #launch installation
+    logger "Check MK Agent update to $REMOTEAGENT"
     sudo apt install $AGENT -y
 fi
 
