@@ -7,13 +7,21 @@ def discover_fail2ban_banned(section):
     for jail, _count in section:
         yield Service(item=jail)
 
-def check_fail2ban_banned(item,section):
+#def check_fail2ban_banned(item, params, section):
+def check_fail2ban_banned(item,  section):
     for jail, count in section:
         if jail == item:
             count = int(count)
-            if count >= 300:
+            if jail == "recidive":
+                 warn = 800
+                 crit = 1000
+            else:
+                 warn = 30
+                 crit = 100
+
+            if count >= crit:
                 s = State.CRIT
-            elif count >= 250:
+            elif count >= warn:
                 s = State.WARN
             else:
                 s = State.OK
@@ -28,6 +36,4 @@ register.check_plugin(
     service_name="fail2ban JAIL: %s",
     discovery_function=discover_fail2ban_banned,
     check_function=check_fail2ban_banned,
-#    check_ruleset_name="fail2ban_parameter",
-#    check_default_parameters="_parameter_valuespec_fail2ban_banned",
 )
