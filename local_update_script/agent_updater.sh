@@ -46,7 +46,7 @@ if [ "$INSTALLEDAGENT" !=  "$REMOTEAGENT" ]
  then
     if [ $DEBUG -eq "1" ]; then echo "NEW AGENT WILL BE INSTALLED - CRTL C for exit" && sleep 5; fi
     #launch installation
-    logger "Check MK Agent update to $REMOTEAGENT"
+    logger "Check MK Agent updated from $INSTALLEDAGENT  to $REMOTEAGENT"
     sudo apt install $AGENT -y
 fi
 
