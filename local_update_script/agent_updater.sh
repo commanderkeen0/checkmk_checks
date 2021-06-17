@@ -19,10 +19,10 @@ DEBUG=0 # can be set to 1 default is 0
 
 
 # check Linux Distribution
-if [ $DEBUG -eq "1" ]; then echo $LINUX " - CRTL C for exit" && sleep 5; fi
+if [ $DEBUG -eq "1" ]; then echo "$LINUX  - CRTL C for exit" && sleep 5; fi
 
 # for Ubunut or Debian Systems
-if [ $LINUX == "Ubuntu" ] || [ $LINUX == "Debian" ]
+if [ "$LINUX" == "Ubuntu" ] || [ "$LINUX" == "Debian" ]
  then
     DLAGENT=$INSTANCE"_"$DEBSUFFIX
 fi

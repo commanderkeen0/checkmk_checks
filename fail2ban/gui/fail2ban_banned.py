@@ -25,6 +25,7 @@ def check_fail2ban_banned(item,  section):
                 s = State.WARN
             else:
                 s = State.OK
+
             yield Metric("Banned",count)
             yield Result(
                 state = s,
