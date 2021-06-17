@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 #
 # Plugin to obtain the number of banned IP addresses per jail
 #
@@ -13,6 +13,6 @@ echo "<<<fail2ban_banned>>>"
 # check for each jail the number of banned IPs
 for element in "${array[@]}"
 do
-    BANNED=$(sudo fail2ban-client status $element | grep "Currently banned:" | awk '{ print $NF }')
+    BANNED=$(sudo fail2ban-client status "$element" | grep "Currently banned:" | awk '{ print $NF }')
     echo "$element $BANNED"
 done
